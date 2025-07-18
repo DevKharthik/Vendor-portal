@@ -67,14 +67,16 @@ export class VendorService {
   }
 
   // RFQ Data
-  getRFQList(): Observable<RFQ[]> {
-    const mockRFQs: RFQ[] = [
-      { rfqNo: 'RFQ001', material: 'MAT001', description: 'Steel Sheets 2mm', quantity: 100, uom: 'PC', dueDate: new Date('2024-02-15'), status: 'Open', createdDate: new Date('2024-01-15') },
-      { rfqNo: 'RFQ002', material: 'MAT002', description: 'Aluminum Rods 5mm', quantity: 50, uom: 'KG', dueDate: new Date('2024-02-20'), status: 'Pending', createdDate: new Date('2024-01-20') },
-      { rfqNo: 'RFQ003', material: 'MAT003', description: 'Copper Wire 10mm', quantity: 200, uom: 'M', dueDate: new Date('2024-02-25'), status: 'Closed', createdDate: new Date('2024-01-25') }
-    ];
-    return of(mockRFQs).pipe(delay(800));
+getRFQList(): Observable<RFQ[]> {
+  const vendorId = this.getCurrentVendorId();
+  if (!vendorId) {
+    return of([]); // or throw error
   }
+
+  return this.http.get<{ success: boolean; data: RFQ[] }>(
+    `http://localhost:5000/api/vendor/rfq/${vendorId}`
+  ).pipe(map(res => res.data));
+}
 
   // Purchase Orders
   getPOList(): Observable<PurchaseOrder[]> {

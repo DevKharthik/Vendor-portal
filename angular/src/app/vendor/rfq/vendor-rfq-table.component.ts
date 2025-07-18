@@ -32,6 +32,7 @@ export class VendorRfqTableComponent implements OnInit {
     this.loadRFQs();
   }
 
+  // ✅ USE REAL BACKEND NOW
   loadRFQs(): void {
     this.vendorService.getRFQList().subscribe({
       next: (rfqs) => {
@@ -50,12 +51,23 @@ export class VendorRfqTableComponent implements OnInit {
     this.router.navigate(['/vendor/dashboard']);
   }
 
-  getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'open': return 'status-open';
-      case 'pending': return 'status-pending';
-      case 'closed': return 'status-closed';
-      default: return '';
-    }
+  getStatusClass(status: string | undefined): string {
+  if (!status) return '';
+  switch (status.toLowerCase()) {
+    case 'a': return 'status-open';      // Active
+    case 'pending': return 'status-pending';
+    case 'closed': return 'status-closed';
+    default: return '';
   }
+}
+
+formatStatus(status: string | undefined): string {
+  if (!status) return 'Unknown';
+  switch (status.toLowerCase()) {
+    case 'a': return 'Active';
+    case 'pending': return 'Pending';
+    case 'closed': return 'Closed';
+    default: return status;
+  }
+}
 }

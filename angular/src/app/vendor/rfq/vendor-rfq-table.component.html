@@ -36,18 +36,18 @@
           </thead>
           <tbody>
             <tr *ngFor="let rfq of rfqs">
-              <td class="rfq-number">{{ rfq.rfqNo }}</td>
-              <td>{{ rfq.material }}</td>
-              <td>{{ rfq.description }}</td>
-              <td class="quantity">{{ rfq.quantity }}</td>
-              <td>{{ rfq.uom }}</td>
-              <td>{{ rfq.dueDate | date:'MMM dd, yyyy' }}</td>
+              <td class="rfq-number">{{ rfq.Ebeln }}</td>
+              <td>{{ rfq.Matnr }}</td>
+              <td>{{ rfq.Txz01 }}</td>
+              <td class="quantity">{{ rfq.Ktmng }}</td>
+              <td>{{ rfq.Bstyp }}</td>
+              <td>{{ rfq.Aedat | date: 'MMM dd, yyyy' }}</td>
               <td>
-                <span class="status-badge" [ngClass]="getStatusClass(rfq.status)">
-                  {{ rfq.status }}
+                <span class="status-badge" [ngClass]="getStatusClass(rfq.Statu)">
+                  {{ formatStatus(rfq.Statu) }}
                 </span>
               </td>
-              <td>{{ rfq.createdDate | date:'MMM dd, yyyy' }}</td>
+              <td>{{ rfq.Bedat | date: 'MMM dd, yyyy' }}</td>
             </tr>
           </tbody>
         </table>
