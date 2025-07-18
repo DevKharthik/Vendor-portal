@@ -8,6 +8,7 @@ export interface VendorProfile {
   Name1: string;
   Land1: string;
   Ort01: string;
+  Stras: string;
   Pstlz: string;
 }
 export interface RFQ {

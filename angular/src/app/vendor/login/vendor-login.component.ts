@@ -31,6 +31,7 @@ export class VendorLoginComponent {
       this.errorMessage = 'Please enter both Vendor ID and Password';
       return;
     }
+    
 
     this.isLoading = true;
     this.errorMessage = '';
@@ -55,6 +56,7 @@ export class VendorLoginComponent {
         console.error('Login error:', error);
         alert(this.errorMessage);
       }
+      
     });
   }
 }
