@@ -1,0 +1,67 @@
+<div class="table-container">
+  <header class="table-header">
+    <button class="back-button" (click)="goBack()">
+      ← Back to Dashboard
+    </button>
+    <div class="header-content">
+      <h1>📦 Purchase Orders</h1>
+      <p>View and track your purchase orders</p>
+    </div>
+  </header>
+
+  <main class="table-main">
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading Purchase Order data...</p>
+    </div>
+
+    <div class="error-container" *ngIf="error && !isLoading">
+      <div class="error-message">{{ error }}</div>
+    </div>
+
+    <div class="table-content" *ngIf="!isLoading && !error">
+      <div class="table-wrapper" *ngIf="purchaseOrders.length > 0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>PO No.</th>
+              <th>Item</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>UOM</th>
+              <th>Unit Price</th>
+              <th>Total Amount</th>
+              <th>PO Date</th>
+              <th>Delivery Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let po of purchaseOrders">
+              <td class="po-number">{{ po.poNo }}</td>
+              <td>{{ po.item }}</td>
+              <td>{{ po.description }}</td>
+              <td class="quantity">{{ po.quantity }}</td>
+              <td>{{ po.uom }}</td>
+              <td class="price">{{ po.unitPrice | currency:'INR':'symbol':'1.2-2' }}</td>
+              <td class="amount">{{ po.totalAmount | currency:'INR':'symbol':'1.2-2' }}</td>
+              <td>{{ po.poDate | date:'MMM dd, yyyy' }}</td>
+              <td>{{ po.deliveryDate | date:'MMM dd, yyyy' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(po.status)">
+                  {{ po.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-state" *ngIf="purchaseOrders.length === 0">
+        <div class="empty-icon">📦</div>
+        <h3>No Purchase Orders Found</h3>
+        <p>There are currently no purchase orders available.</p>
+      </div>
+    </div>
+  </main>
+</div>

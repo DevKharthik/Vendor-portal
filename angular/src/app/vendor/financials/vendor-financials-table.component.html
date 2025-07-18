@@ -1,0 +1,167 @@
+<div class="table-container">
+  <header class="table-header">
+    <button class="back-button" (click)="goBack()">
+      ← Back to Dashboard
+    </button>
+    <div class="header-content">
+      <h1>💰 Financial Records</h1>
+      <p>View invoices, payments, and memos</p>
+    </div>
+  </header>
+
+  <main class="table-main">
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading financial data...</p>
+    </div>
+
+    <div class="error-container" *ngIf="error && !isLoading">
+      <div class="error-message">{{ error }}</div>
+    </div>
+
+    <div class="table-content" *ngIf="!isLoading && !error">
+      <div class="tabs-container">
+        <div class="tabs">
+          <button 
+            class="tab-button" 
+            [class.active]="activeTab === 'invoices'"
+            (click)="setActiveTab('invoices')">
+            📋 Invoices ({{ invoices.length }})
+          </button>
+          <button 
+            class="tab-button" 
+            [class.active]="activeTab === 'payments'"
+            (click)="setActiveTab('payments')">
+            💳 Payments ({{ payments.length }})
+          </button>
+          <button 
+            class="tab-button" 
+            [class.active]="activeTab === 'memos'"
+            (click)="setActiveTab('memos')">
+            📝 Memos ({{ memos.length }})
+          </button>
+        </div>
+      </div>
+
+      <!-- Invoices Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'invoices'">
+        <div class="table-wrapper" *ngIf="invoices.length > 0">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Invoice No.</th>
+                <th>PO No.</th>
+                <th>Amount</th>
+                <th>Invoice Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let invoice of invoices">
+                <td class="invoice-number">{{ invoice.invoiceNo }}</td>
+                <td class="po-reference">{{ invoice.poNo }}</td>
+                <td class="amount">{{ invoice.amount | currency:'INR':'symbol':'1.2-2' }}</td>
+                <td>{{ invoice.invoiceDate | date:'MMM dd, yyyy' }}</td>
+                <td>{{ invoice.dueDate | date:'MMM dd, yyyy' }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="getInvoiceStatusClass(invoice.status)">
+                    {{ invoice.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="empty-state" *ngIf="invoices.length === 0">
+          <div class="empty-icon">📋</div>
+          <h3>No Invoices Found</h3>
+          <p>There are currently no invoice records available.</p>
+        </div>
+      </div>
+
+      <!-- Payments Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'payments'">
+        <div class="table-wrapper" *ngIf="payments.length > 0">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Payment No.</th>
+                <th>Invoice No.</th>
+                <th>Amount</th>
+                <th>Payment Date</th>
+                <th>Method</th>
+                <th>Aging Days</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of payments">
+                <td class="payment-number">{{ payment.paymentNo }}</td>
+                <td class="invoice-reference">{{ payment.invoiceNo }}</td>
+                <td class="amount">{{ payment.amount | currency:'INR':'symbol':'1.2-2' }}</td>
+                <td>{{ payment.paymentDate | date:'MMM dd, yyyy' }}</td>
+                <td>{{ payment.method }}</td>
+                <td class="aging-days">{{ payment.agingDays }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="getPaymentStatusClass(payment.status)">
+                    {{ payment.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="empty-state" *ngIf="payments.length === 0">
+          <div class="empty-icon">💳</div>
+          <h3>No Payments Found</h3>
+          <p>There are currently no payment records available.</p>
+        </div>
+      </div>
+
+      <!-- Memos Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'memos'">
+        <div class="table-wrapper" *ngIf="memos.length > 0">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Memo No.</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Reason</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let memo of memos">
+                <td class="memo-number">{{ memo.memoNo }}</td>
+                <td>
+                  <span class="memo-type" [ngClass]="getMemoTypeClass(memo.type)">
+                    {{ memo.type }}
+                  </span>
+                </td>
+                <td class="amount">{{ memo.amount | currency:'INR':'symbol':'1.2-2' }}</td>
+                <td>{{ memo.reason }}</td>
+                <td>{{ memo.date | date:'MMM dd, yyyy' }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="getMemoStatusClass(memo.status)">
+                    {{ memo.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="empty-state" *ngIf="memos.length === 0">
+          <div class="empty-icon">📝</div>
+          <h3>No Memos Found</h3>
+          <p>There are currently no memo records available.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
