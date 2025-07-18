@@ -49,6 +49,7 @@ router.get('/:vendorId', async (req, res) => {
       Name1: data.Name1,
       Land1: data.Land1,
       Ort01: data.Ort01,
+      Stras: data.Stras,
       Pstlz: data.Pstlz,
     };
 
