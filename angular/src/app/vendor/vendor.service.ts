@@ -79,14 +79,16 @@ getRFQList(): Observable<RFQ[]> {
 }
 
   // Purchase Orders
-  getPOList(): Observable<PurchaseOrder[]> {
-    const mockPOs: PurchaseOrder[] = [
-      { poNo: 'PO001', item: 'ITEM001', description: 'Steel Sheets 2mm', quantity: 100, uom: 'PC', unitPrice: 250.00, totalAmount: 25000.00, poDate: new Date('2024-01-10'), deliveryDate: new Date('2024-02-10'), status: 'Confirmed' },
-      { poNo: 'PO002', item: 'ITEM002', description: 'Copper Wire 10mm', quantity: 200, uom: 'M', unitPrice: 15.50, totalAmount: 3100.00, poDate: new Date('2024-01-12'), deliveryDate: new Date('2024-02-12'), status: 'In Progress' },
-      { poNo: 'PO003', item: 'ITEM003', description: 'Aluminum Rods 5mm', quantity: 75, uom: 'KG', unitPrice: 120.00, totalAmount: 9000.00, poDate: new Date('2024-01-15'), deliveryDate: new Date('2024-02-15'), status: 'Delivered' }
-    ];
-    return of(mockPOs).pipe(delay(800));
+ getPOList(): Observable<PurchaseOrder[]> {
+  const vendorId = this.getCurrentVendorId();
+  if (!vendorId) {
+    return of([]);
   }
+
+  return this.http.get<{ success: boolean; data: PurchaseOrder[] }>(
+    `http://localhost:5000/api/vendor/po/${vendorId}`
+  ).pipe(map(res => res.data));
+}
 
   // Goods Receipt
   getGRList(): Observable<GoodsReceipt[]> {

@@ -25,17 +25,20 @@ export interface RFQ {
   Txz01: string;         // Description
   Bstyp: string;         // PO Type / UOM if applicable
 }
+
+
 export interface PurchaseOrder {
-  poNo: string;
-  item: string;
-  description: string;
-  quantity: number;
-  uom: string;
-  unitPrice: number;
-  totalAmount: number;
-  poDate: Date;
-  deliveryDate: Date;
-  status: string;
+  Lifnr: string;         // Vendor ID
+  Ebeln: string;         // RFQ Number
+  Aedat: string;         // Changed Date
+  Bedat: string;         // Created Date
+  Ekorg: string;         // Purchasing Org
+  Matnr: string;         // Material Number
+  Ktmng: number;         // Quantity
+  Netpr: number;         // Net Price
+  Statu: string;         // Status
+  Txz01: string;         // Description
+  Bstyp: string;         // PO Type / UOM if applicable
 }
 
 export interface GoodsReceipt {

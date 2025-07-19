@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { VendorService } from '../vendor.service';
-import { PurchaseOrder } from '../vendor.model';
+import {  PurchaseOrder } from '../vendor.model';
 
 @Component({
   selector: 'app-vendor-po-table',
@@ -11,8 +11,8 @@ import { PurchaseOrder } from '../vendor.model';
   templateUrl: './vendor-po-table.component.html',
   styleUrls: ['./vendor-po-table.component.css']
 })
-export class VendorPoTableComponent implements OnInit {
-  purchaseOrders: PurchaseOrder[] = [];
+export class VendorpoTableComponent implements OnInit {
+  pos: PurchaseOrder[] = [];
   isLoading = true;
   error: string | null = null;
 
@@ -29,18 +29,19 @@ export class VendorPoTableComponent implements OnInit {
       return;
     }
 
-    this.loadPurchaseOrders();
+    this.loadPOs();
   }
 
-  loadPurchaseOrders(): void {
+  // ✅ USE REAL BACKEND NOW
+  loadPOs(): void {
     this.vendorService.getPOList().subscribe({
       next: (pos) => {
-        this.purchaseOrders = pos;
+        this.pos = pos;
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error loading Purchase Orders:', error);
-        this.error = 'Failed to load Purchase Order data';
+        console.error('Error loading pos:', error);
+        this.error = 'Failed to load POS data';
         this.isLoading = false;
       }
     });
@@ -50,13 +51,21 @@ export class VendorPoTableComponent implements OnInit {
     this.router.navigate(['/vendor/dashboard']);
   }
 
-  getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'confirmed': return 'status-confirmed';
-      case 'in progress': return 'status-progress';
-      case 'delivered': return 'status-delivered';
-      case 'cancelled': return 'status-cancelled';
-      default: return '';
-    }
+  getStatusClass(status: string | undefined): string {
+  if (!status) return '';
+  switch (status.toLowerCase()) {
+    case 'a': return 'status-open';      // Active
+    case 'pending': return 'status-pending';
+    case 'closed': return 'status-closed';
+    default: return '';
   }
 }
+
+ formatDate(odataDate: string): string {
+    const timestamp = parseInt(odataDate.replace(/[^0-9]/g, ''), 10);
+    const date = new Date(timestamp);
+    return date.toLocaleDateString();
+  }
+
+}
+

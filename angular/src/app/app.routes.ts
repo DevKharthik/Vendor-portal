@@ -30,7 +30,7 @@ export const routes: Routes = [
   {
     path: 'vendor/po',
     loadComponent: () =>
-      import('./vendor/po/vendor-po-table.component').then(m => m.VendorPoTableComponent),
+      import('./vendor/po/vendor-po-table.component').then(m => m.VendorpoTableComponent),
     canActivate: [AuthGuard]
   },
   {
