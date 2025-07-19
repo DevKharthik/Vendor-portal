@@ -42,15 +42,14 @@ export interface PurchaseOrder {
 }
 
 export interface GoodsReceipt {
-  grNo: string;
-  poNo: string;
-  material: string;
-  description: string;
-  quantity: number;
-  uom: string;
-  receivedDate: Date;
-  receivedBy: string;
-  status: string;
+  Mblnr: string;         // Material Document Number (e.g., "5000000001")
+  Mjahr: string;         // Fiscal Year (e.g., "2025")
+  Matnr: string;         // Material Number (e.g., "13")
+  Menge: string;         // Quantity (e.g., "5.000") – use `number` if you parse it
+  Werks: string;         // Plant (e.g., "1009")
+  Meins: string;         // Unit of Measure (e.g., "KG")
+  BudatMkpf: string;     // Posting Date (e.g., "2025-06-02T00:00:00") – use `Date` if parsed
+  Lifnr: string;  
 }
 
 export interface Invoice {

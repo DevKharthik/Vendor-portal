@@ -1,65 +1,32 @@
-<div class="table-container">
-  <header class="table-header">
-    <button class="back-button" (click)="goBack()">
-      ← Back to Dashboard
-    </button>
-    <div class="header-content">
-      <h1>📥 Goods Receipt</h1>
-      <p>Track your goods receipt records</p>
-    </div>
-  </header>
+<div class="gr-container">
+  <h2 class="title">Goods Receipt Details</h2>
 
-  <main class="table-main">
-    <div class="loading-container" *ngIf="isLoading">
-      <div class="spinner"></div>
-      <p>Loading Goods Receipt data...</p>
-    </div>
+  <table *ngIf="goodsReceipts.length > 0; else noGR" class="gr-table">
+    <thead>
+      <tr>
+        <th>Document No</th>
+        <th>Year</th>
+        <th>Material</th>
+        <th>Quantity</th>
+        <th>Plant</th>
+        <th>Unit</th>
+        <th>Posting Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let gr of goodsReceipts">
+        <td>{{ gr.Mblnr }}</td>
+        <td>{{ gr.Mjahr }}</td>
+        <td>{{ gr.Matnr }}</td>
+        <td>{{ gr.Menge }}</td>
+        <td>{{ gr.Werks }}</td>
+        <td>{{ gr.Meins }}</td>
+        <td>{{ formatDate(gr.BudatMkpf) }}</td>
+      </tr>
+    </tbody>
+  </table>
 
-    <div class="error-container" *ngIf="error && !isLoading">
-      <div class="error-message">{{ error }}</div>
-    </div>
-
-    <div class="table-content" *ngIf="!isLoading && !error">
-      <div class="table-wrapper" *ngIf="goodsReceipts.length > 0">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>GR No.</th>
-              <th>PO No.</th>
-              <th>Material</th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>UOM</th>
-              <th>Received Date</th>
-              <th>Received By</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let gr of goodsReceipts">
-              <td class="gr-number">{{ gr.grNo }}</td>
-              <td class="po-reference">{{ gr.poNo }}</td>
-              <td>{{ gr.material }}</td>
-              <td>{{ gr.description }}</td>
-              <td class="quantity">{{ gr.quantity }}</td>
-              <td>{{ gr.uom }}</td>
-              <td>{{ gr.receivedDate | date:'MMM dd, yyyy' }}</td>
-              <td>{{ gr.receivedBy }}</td>
-              <td>
-                <span class="status-badge" [ngClass]="getStatusClass(gr.status)">
-                  {{ gr.status }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="empty-state" *ngIf="goodsReceipts.length === 0">
-        <div class="empty-icon">📥</div>
-        <h3>No Goods Receipts Found</h3>
-        <p>There are currently no goods receipt records available.</p>
-      </div>
-    </div>
-  </main>
+  <ng-template #noGR>
+    <p class="no-data">No Goods Receipt records found.</p>
+  </ng-template>
 </div>

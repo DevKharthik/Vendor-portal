@@ -33,9 +33,9 @@ export class VendorGrTableComponent implements OnInit {
   }
 
   loadGoodsReceipts(): void {
-    this.vendorService.getGRList().subscribe({
-      next: (grs) => {
-        this.goodsReceipts = grs;
+    this.vendorService.getGrList().subscribe({
+      next: (gs) => {
+        this.goodsReceipts = gs;
         this.isLoading = false;
       },
       error: (error) => {
@@ -56,6 +56,11 @@ export class VendorGrTableComponent implements OnInit {
       case 'pending': return 'status-pending';
       case 'partial': return 'status-partial';
       default: return '';
-    }
+    } 
+  }
+   formatDate(odataDate: string): string {
+    const timestamp = parseInt(odataDate.replace(/[^0-9]/g, ''), 10);
+    const date = new Date(timestamp);
+    return date.toLocaleDateString();
   }
 }

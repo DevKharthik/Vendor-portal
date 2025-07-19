@@ -91,14 +91,17 @@ getRFQList(): Observable<RFQ[]> {
 }
 
   // Goods Receipt
-  getGRList(): Observable<GoodsReceipt[]> {
-    const mockGRs: GoodsReceipt[] = [
-      { grNo: 'GR001', poNo: 'PO001', material: 'MAT001', description: 'Steel Sheets 2mm', quantity: 50, uom: 'PC', receivedDate: new Date('2024-01-25'), receivedBy: 'John Doe', status: 'Completed' },
-      { grNo: 'GR002', poNo: 'PO002', material: 'MAT002', description: 'Copper Wire 10mm', quantity: 100, uom: 'M', receivedDate: new Date('2024-01-28'), receivedBy: 'Jane Smith', status: 'Partial' },
-      { grNo: 'GR003', poNo: 'PO003', material: 'MAT003', description: 'Aluminum Rods 5mm', quantity: 75, uom: 'KG', receivedDate: new Date('2024-02-01'), receivedBy: 'Mike Johnson', status: 'Completed' }
-    ];
-    return of(mockGRs).pipe(delay(800));
+getGrList(): Observable<GoodsReceipt[]> {
+  const vendorId = this.getCurrentVendorId();
+  if (!vendorId) {
+    return of([]); // or throw error
   }
+
+  return this.http.get<{ success: boolean; data: GoodsReceipt[] }>(
+    `http://localhost:5000/api/vendor/gr/${vendorId}`
+  ).pipe(map(res => res.data));
+}
+
 
   // Financials
   getInvoices(): Observable<Invoice[]> {
