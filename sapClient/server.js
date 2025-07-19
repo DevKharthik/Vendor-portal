@@ -10,6 +10,8 @@ const vendorPoRoute = require('./vendorPoRoute');
 const vendorLoginRoute = require('./vendorLoginRoute');
 const vendorProfileRoute = require('./vendorProfileRoute');
 const vendorGrRoute = require('./vendorGsRoute');
+// const vendorGrRoute = require('./vendorGsRoute');
+const vendorInvoiceRoute=require('./vendorInvoiceRoute')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,6 +25,7 @@ app.use('/api/vendor/profile', vendorProfileRoute);
 app.use('/api/vendor/rfq', rfqRoute);
 app.use('/api/vendor/po', vendorPoRoute );
 app.use('/api/vendor/gr', vendorGrRoute );
+app.use('/api/vendor/invoice',vendorInvoiceRoute)
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
