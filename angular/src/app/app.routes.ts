@@ -34,17 +34,12 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'vendor/gr',
+    path: 'vendor/invoice',
     loadComponent: () =>
-      import('./vendor/gr/vendor-gr-table.component').then(m => m.VendorGrTableComponent),
+      import('./vendor/invoice/vendor-invoice-table.component').then(m => m.VendorInvoiceTableComponent),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'vendor/financials',
-    loadComponent: () =>
-      import('./vendor/financials/vendor-financials-table.component').then(m => m.VendorFinancialsTableComponent),
-    canActivate: [AuthGuard]
-  },
+
 
   { path: '**', redirectTo: '/vendor/login' }
 ];

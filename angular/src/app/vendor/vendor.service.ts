@@ -8,7 +8,7 @@ import {
   RFQ, 
   PurchaseOrder, 
   GoodsReceipt, 
-  Invoice, 
+   Invoice, 
   Payment, 
   Memo,
   DashboardTile 
@@ -61,7 +61,7 @@ export class VendorService {
       { title: 'Request for Quotation', icon: '📄', count: 12, route: '/vendor/rfq', color: '#3b82f6' },
       { title: 'Purchase Orders', icon: '📦', count: 8, route: '/vendor/po', color: '#10b981' },
       { title: 'Goods Receipt', icon: '📥', count: 5, route: '/vendor/gr', color: '#f59e0b' },
-      { title: 'Financials', icon: '💰', count: 15, route: '/vendor/financials', color: '#8b5cf6' }
+      { title: 'Invoice', icon: '💰', count: 15, route: '/vendor/invoice', color: '#8b5cf6' }
     ];
     return of(tiles).pipe(delay(500));
   }
@@ -103,15 +103,17 @@ getGrList(): Observable<GoodsReceipt[]> {
 }
 
 
-  // Financials
-  getInvoices(): Observable<Invoice[]> {
-    const mockInvoices: Invoice[] = [
-      { invoiceNo: 'INV001', poNo: 'PO001', amount: 12500.00, invoiceDate: new Date('2024-01-26'), dueDate: new Date('2024-02-25'), status: 'Paid' },
-      { invoiceNo: 'INV002', poNo: 'PO002', amount: 3100.00, invoiceDate: new Date('2024-01-28'), dueDate: new Date('2024-02-27'), status: 'Pending' },
-      { invoiceNo: 'INV003', poNo: 'PO003', amount: 9000.00, invoiceDate: new Date('2024-02-02'), dueDate: new Date('2024-03-03'), status: 'Overdue' }
-    ];
-    return of(mockInvoices).pipe(delay(800));
+  getInvoice(): Observable< Invoice[]> {
+  const vendorId = this.getCurrentVendorId();
+  if (!vendorId) {
+    return of([]); // or throw error
   }
+
+  return this.http.get<{ success: boolean; data:  Invoice[] }>(
+    `http://localhost:5000/api/vendor/invoice/${vendorId}`
+  ).pipe(map(res => res.data));
+}
+
 
   getPayments(): Observable<Payment[]> {
     const mockPayments: Payment[] = [

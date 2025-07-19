@@ -53,12 +53,15 @@ export interface GoodsReceipt {
 }
 
 export interface Invoice {
-  invoiceNo: string;
-  poNo: string;
-  amount: number;
-  invoiceDate: Date;
-  dueDate: Date;
-  status: string;
+  Belnr: string;
+  Budat: string;
+  Gjahr: number;
+  Waers: Date;
+  Wrbtr: Date;
+  Lifnr: string;
+  Matnr: string;
+  Txz01: string;
+  Name1: string;
 }
 
 export interface Payment {
