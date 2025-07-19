@@ -6,11 +6,10 @@ const axios = require('axios');
 const xml2js = require('xml2js');
 const https = require('https');
 const rfqRoute = require('./vendorRfqRoute');
-
-// Import route files
+const vendorPoRoute = require('./vendorPoRoute');
 const vendorLoginRoute = require('./vendorLoginRoute');
 const vendorProfileRoute = require('./vendorProfileRoute');
-const vendorRfqRoute = require('./vendorRfqRoute'); 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -21,7 +20,7 @@ app.use(bodyParser.json());
 app.use('/api/vendor/login', vendorLoginRoute);  // if you move login to route file
 app.use('/api/vendor/profile', vendorProfileRoute);
 app.use('/api/vendor/rfq', rfqRoute);
-
+app.use('/api/vendor/po', vendorPoRoute );
 // Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
